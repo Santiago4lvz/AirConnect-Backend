@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('prototype', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('modelpro_id')->constrained('modelpro')->onDelete('cascade');
             $table->string('name');
             $table->float('temperature');
             $table->float('humidity');
@@ -27,6 +28,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('prototype', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['modelpro_id']);
+        });
+
         Schema::dropIfExists('prototype');
+        
     }
 };
