@@ -1,3 +1,4 @@
+<!-- Solo para el commit de prueba>
 @extends('auth.master')
 
 @section('title', trans('auth.LOGIN') . ' - AirConnect')
