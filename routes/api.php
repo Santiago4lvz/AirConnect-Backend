@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\UserRegisteredController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//login en el mobile
+Route::post('login-mobile',[UserAuthController::class,'login']);
+
+//registro en el mobile
+Route::post('register-mobile',[UserRegisteredController::class,'store']);
+//Route::post('register-mobile',[RegisteredUserController::class,'store']);
+
+Route::middleware('auth:sanctum')->get('/user-profile', [UserAuthController::class,'userProfile']);
+
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+*/
