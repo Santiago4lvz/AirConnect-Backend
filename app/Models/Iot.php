@@ -10,6 +10,7 @@ class Iot extends Model
     protected $fillable = [
         'device_name',
         'user_id',
+        
         'status',
         'location',
         'co2_level',
