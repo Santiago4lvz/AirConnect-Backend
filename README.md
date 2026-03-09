@@ -61,7 +61,7 @@ Backend
 
 Base de Datos
 
-* MySQL
+* SQLserver
 
 Contenedores
 
