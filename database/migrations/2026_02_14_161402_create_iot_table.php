@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyInteger('status')->default(1);
             $table->string('location')->nullable();
-           // $table->string('ip_address')->nullable();
+            // $table->string('ip_address')->nullable();
             $table->double('co2_level', 10, 2)->nullable();
             $table->double('temperature', 10, 2)->nullable();
             $table->double('humidity', 10, 2)->nullable();

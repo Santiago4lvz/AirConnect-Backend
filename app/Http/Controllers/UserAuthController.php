@@ -7,17 +7,18 @@ use Illuminate\Http\Request;
 
 class UserAuthController extends Controller
 {
-    public function login (Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        $user = User::where ('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-        if (!$user || !\Hash::check($request->password, $user->password)) {
+        if (! $user || ! \Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials',
             ], 401);
         }
 
@@ -26,14 +27,15 @@ class UserAuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
-    public function userProfile(Request $request){
-    return response()->json([
-        'message' => 'Datos del usuario recuperados',
-        'userData' => $request->user()
-    ], 200);
+    public function userProfile(Request $request)
+    {
+        return response()->json([
+            'message' => 'Datos del usuario recuperados',
+            'userData' => $request->user(),
+        ], 200);
     }
 }

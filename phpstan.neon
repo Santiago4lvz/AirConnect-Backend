@@ -1,0 +1,21 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - config/
+        - database/
+        - routes/
+
+    # Nivel 5 es un buen equilibrio. El máximo es 9.
+    level: 5
+
+    ignoreErrors:
+        # Algunos errores comunes de Laravel que puedes ignorar al principio
+        - '#PHPDoc tag @var for variable \$.* contains unresolvable type#'
+
+    excludePaths:
+        - ./*/*/FileToBeExcluded.php
+
+    checkMissingIterableValueType: false
