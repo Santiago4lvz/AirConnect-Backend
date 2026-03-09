@@ -69,7 +69,7 @@ RUN composer require laravel/octane spiral/roadrunner --no-interaction
 
 # 6. Configuración de Octane
 # Nota: Si ya tienes config/octane.php no es necesario correr esto, 
-# pero el flag --no-interaction evita que el build se detenga.
+# pero el flag --no-interaction evita que el build se detenga. aaaa
 RUN php artisan octane:install --server="swoole" --no-interaction
 
 # 7. Permisos
