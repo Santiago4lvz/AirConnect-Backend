@@ -1,55 +1,38 @@
-name: Laravel CI
+name: Tests
 
 on:
   push:
-    branches: [ proyecto-integrador ]
+    branches: [proyecto-integrador]
   pull_request:
-    branches: [ proyecto-integrador ]
+    branches: [proyecto-integrador]
 
-jobs:
-  laravel-tests:
-
+  jobs:
+  build:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: laravel_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
-    - name: Clonar repositorio
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Configurar PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.2
-        extensions: mbstring, bcmath, pdo, mysql
-        coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+ 
+      - name: Create database
+        run: touch ./database/database.sqlite
+  
+      - name: Copy .env
+        run: cp .env.exanmple .env
 
-    - name: Instalar dependencias
-      run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Install app
+        run: composer install
+ 
+      - name: Run migrations
+        run: php artisan migrate
+ 
+      - name: Test PHPStan
+        run: ./vendor/bin/phpstan analyse
 
-    - name: Copiar archivo .env
-      run: cp .env.example .env
+      - name: Test PHPUnit
+        run: ./vendor/bin/phpunit
 
-    - name: Generar APP_KEY
-      run: php artisan key:generate
-
-    - name: Permisos de storage
-      run: chmod -R 777 storage bootstrap/cache
-
-    - name: Ejecutar migraciones
-      run: php artisan migrate --force
-
-    - name: Ejecutar pruebas
-      run: php artisan test
