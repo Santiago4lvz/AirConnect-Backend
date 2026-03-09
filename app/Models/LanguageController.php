@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
@@ -14,7 +13,7 @@ class LanguageController extends Controller
             Session::put('locale', $language);
             App::setLocale($language);
         }
-        
+
         return redirect()->back();
     }
 }

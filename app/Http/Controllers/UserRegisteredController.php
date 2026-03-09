@@ -2,40 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Auth\Events\Registered;
 
 class UserRegisteredController extends Controller
 {
     public function store(Request $request): JsonResponse
-{
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    ]);
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    event(new Registered($user));
+        event(new Registered($user));
 
-    // GENERAR TOKEN PARA EL MÓVIL
-    $token = $user->createToken('auth_token')->plainTextToken;
+        // GENERAR TOKEN PARA EL MÓVIL
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-    // RESPUESTA JSON PARA LA APP
-    return response()->json([
-        'message' => 'Usuario registrado con éxito',
-        'access_token' => $token,
-        'token_type' => 'Bearer',
-        'user' => $user
-    ], 201);
-}
+        // RESPUESTA JSON PARA LA APP
+        return response()->json([
+            'message' => 'Usuario registrado con éxito',
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+        ], 201);
+    }
 }

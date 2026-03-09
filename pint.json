@@ -1,0 +1,10 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "concat_space": {
+            "spacing": "one"
+        },
+        "new_with_braces": true,
+        "array_syntax": { "syntax": "short" }
+    }
+}

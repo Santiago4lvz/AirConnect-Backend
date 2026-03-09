@@ -1,0 +1,50 @@
+name: Tests
+
+on:
+  push:
+    branches: [proyecto-integrador]
+  pull_request:
+    branches: [proyecto-integrador]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, xml, ctype, iconv, intl, sqlite3 # Asegura extensiones necesarias
+
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Create database
+        run: touch database/database.sqlite
+
+      - name: Configure SQLITE
+        run: |
+          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+          # Usamos una ruta absoluta para evitar problemas en el entorno de CI
+          sed -i 's|DB_DATABASE=.*|DB_DATABASE='"$(pwd)"'/database/database.sqlite|' .env
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Run PHPStan
+        # El comando '|| true' permite que el workflow siga aunque PHPStan encuentre errores.
+        # Quítalo cuando hayas corregido los errores de PHPStan que vimos antes.
+        run: ./vendor/bin/phpstan analyse --no-progress
+
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit
