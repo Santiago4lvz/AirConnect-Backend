@@ -1,66 +1,255 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AirConnect Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![CI/CD](https://github.com/Santiago4lvz/AirConnect-Backend/actions/workflows/ci-cd.yml/badge.svg)]
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)]
 
-## About Laravel
+Backend del proyecto **AirConnect**, una API desarrollada para gestionar servicios relacionados con transporte aéreo, reservas y administración de usuarios.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+El sistema proporciona endpoints para manejar autenticación, gestión de vuelos, reservas y administración del sistema.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Tabla de Contenidos
 
-## Learning Laravel
+* [Descripción](#descripción)
+* [Requisitos Previos](#requisitos-previos)
+* [Stack Tecnológico](#stack-tecnológico)
+* [Instalación](#instalación)
+* [Ejecutar Localmente](#ejecutar-localmente)
+* [Tests](#tests)
+* [Estructura del Proyecto](#estructura-del-proyecto)
+* [Variables de Entorno](#variables-de-entorno)
+* [Contribución](#contribución)
+* [Licencia](#licencia)
+* [Autores](#autores)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Descripción
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**AirConnect Backend** es una API REST desarrollada para gestionar la lógica del sistema AirConnect.
 
-## Laravel Sponsors
+Permite administrar:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* Usuarios
+* Autenticación
+* Reservas
+* Información del sistema
 
-### Premium Partners
+El backend expone endpoints que pueden ser consumidos por aplicaciones web o móviles.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+# Requisitos Previos
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Antes de ejecutar el proyecto debes tener instalado:
 
-## Code of Conduct
+* PHP 8.1+
+* Composer
+* MySQL o MariaDB
+* Node.js 18+
+* Docker (opcional)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+# Stack Tecnológico
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Backend
 
-## License
+* Laravel
+* PHP
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Base de Datos
+
+* MySQL
+
+Contenedores
+
+* Docker
+
+Control de versiones
+
+* Git
+* GitHub
+
+Testing
+
+* PHPUnit
+
+CI/CD
+
+* GitHub Actions
+
+---
+
+# Instalación
+
+Clonar el repositorio:
+
+```bash
+git clone -b proyecto-integrador --single-branch https://github.com/Santiago4lvz/AirConnect-Backend.git
+cd AirConnect-Backend
+```
+
+Instalar dependencias de PHP:
+
+```bash
+composer install
+```
+
+Copiar variables de entorno:
+
+```bash
+cp .env.example .env
+```
+
+Generar clave de la aplicación:
+
+```bash
+php artisan key:generate
+```
+
+Configurar base de datos en el archivo `.env`.
+
+Ejecutar migraciones:
+
+```bash
+php artisan migrate
+```
+
+---
+
+# Ejecutar Localmente
+
+Iniciar servidor de desarrollo:
+
+```bash
+php artisan serve
+```
+
+La API estará disponible en:
+
+```
+http://localhost:8000
+```
+
+---
+
+# Tests
+
+Ejecutar todos los tests:
+
+```bash
+php artisan test
+```
+
+Los tests se encuentran en la carpeta:
+
+```
+tests/
+```
+
+---
+
+# Estructura del Proyecto
+
+```
+AirConnect-Backend
+│
+├ app
+│ ├ Http
+│ │ └ Controllers
+│ ├ Models
+│
+├ routes
+│ ├ api.php
+│ └ web.php
+│
+├ tests
+│
+├ docs
+│ ├ api
+│ ├ architecture
+│ └ guides
+│
+├ Dockerfile
+├ docker-compose.yml
+├ README.md
+└ package.json
+```
+
+---
+
+# Variables de Entorno
+
+El proyecto utiliza variables de entorno definidas en el archivo `.env`.
+
+Ejemplo:
+
+```
+APP_NAME=AirConnect
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=airconnect
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+# Contribución
+
+Para contribuir al proyecto:
+
+1. Crear una nueva rama
+
+```
+git checkout -b feature/nueva-funcionalidad
+```
+
+2. Realizar los cambios necesarios
+
+3. Hacer commit
+
+```
+git commit -m "feat: nueva funcionalidad"
+```
+
+4. Subir la rama
+
+```
+git push origin feature/nueva-funcionalidad
+```
+
+5. Crear un **Pull Request** en GitHub.
+
+---
+
+# Licencia
+
+Este proyecto se distribuye bajo la licencia **MIT**.
+
+---
+
+# Autores
+
+Equipo de desarrollo del proyecto **AirConnect**
+
+* Integrantes del Proyecto Integrador
+Ayala Salaya Ingrid
+
+Jimenez Garcia Said Humberto
+
+May Gamas Sebastian
+
+Morales Ramirez Jorge de Jesus
+
+Santiago Alvarez Mario Alfonso
+
+Tah Moo Carlos Misael
