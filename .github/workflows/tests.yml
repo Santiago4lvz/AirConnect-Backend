@@ -35,8 +35,16 @@ jobs:
         extensions: mbstring, bcmath, pdo, mysql, dom, xml
         coverage: none
 
+        
+
     - name: Instalar dependencias
       run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+    - name: Instalar dependencias de Node
+      run: npm install
+
+    - name: Compilar Assets (Vite)
+      run: npm run build
 
     - name: Preparar Entorno de Laravel
       run: |
