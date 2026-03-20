@@ -42,8 +42,7 @@ jobs:
         run: php artisan migrate --force
 
       - name: Run PHPStan
-        # El comando '|| true' permite que el workflow siga aunque PHPStan encuentre errores.
-        # Quítalo cuando hayas corregido los errores de PHPStan que vimos antes.
+
         run: ./vendor/bin/phpstan analyse --no-progress
 
       - name: Run PHPUnit

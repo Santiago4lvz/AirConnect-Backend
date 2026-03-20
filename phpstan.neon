@@ -5,5 +5,4 @@ parameters:
     paths:
         - app/
 
-    # Nivel 5 es un buen equilibrio. El máximo es 9.
     level: 5

@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-# 1. Instalar dependencias del sistema (Limpias)
+# 1. Instalar dependencias del sistema 
 RUN apt-get update && apt-get install -y \
     git \
     sudo \
@@ -68,8 +68,6 @@ RUN composer install --no-interaction --optimize-autoloader
 RUN composer require laravel/octane spiral/roadrunner --no-interaction
 
 # 6. Configuración de Octane
-# Nota: Si ya tienes config/octane.php no es necesario correr esto, 
-# pero el flag --no-interaction evita que el build se detenga.
 RUN php artisan octane:install --server="swoole" --no-interaction
 
 # 7. Permisos
