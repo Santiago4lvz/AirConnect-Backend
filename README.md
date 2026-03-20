@@ -61,7 +61,7 @@ Backend
 
 Base de Datos
 
-* MySQL
+* SQLserver
 
 Contenedores
 
@@ -242,6 +242,7 @@ Este proyecto se distribuye bajo la licencia **MIT**.
 Equipo de desarrollo del proyecto **AirConnect**
 
 * Integrantes del Proyecto Integrador
+
 Ayala Salaya Ingrid
 
 Jimenez Garcia Said Humberto
