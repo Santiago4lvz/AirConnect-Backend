@@ -12,4 +12,4 @@ use Illuminate\Support\Facades\Route;
 // Cambio de idioma
 Route::get('/language/{language}', [LanguageController::class, 'switch'])->name('language.switch');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

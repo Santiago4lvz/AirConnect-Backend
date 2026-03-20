@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\IotController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserRegisteredController;
-use App\Http\Controllers\IotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,24 +21,18 @@ use Illuminate\Support\Facades\Route;
 // login en el mobile
 Route::post('login-mobile', [UserAuthController::class, 'login']);
 
-
 // registro en el mobile
 Route::post('register-mobile', [UserRegisteredController::class, 'store']);
-
 
 // reigistro de iot
 
 Route::post('iot-data', [IotController::class, 'store']);
-
 
 // todos los datos de iot
 Route::get('iot-data', [IotController::class, 'index']);
 // Route::post('register-mobile',[RegisteredUserController::class,'store']);
 
 Route::middleware('auth:sanctum')->get('/user-profile', [UserAuthController::class, 'userProfile']);
-
-
-
 
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

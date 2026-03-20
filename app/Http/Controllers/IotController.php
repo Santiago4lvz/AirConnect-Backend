@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+
 use App\Models\Iot;
+use Illuminate\Http\Request;
 
 class IotController extends Controller
 {
-    public function store (Request $request)
+    public function store(Request $request)
     {
-      $request->validate([
-        'temperature' => 'required|numeric',
-        'humidity' => 'required|numeric',
-        'light' => 'required|numeric',
-      ]);
+        $request->validate([
+            'temperature' => 'required|numeric',
+            'humidity' => 'required|numeric',
+            'light' => 'required|numeric',
+        ]);
 
         $iot = Iot::create([
             'device_name' => $request->input('device_name'),
