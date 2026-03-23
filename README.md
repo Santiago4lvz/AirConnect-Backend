@@ -162,7 +162,7 @@ tests/
 Ejecutar phpstan (Código Estatico)
 
 ```bash
-./vendor/bin/phpstan analise
+./vendor/bin/phpstan analyse
 ```
 
 
