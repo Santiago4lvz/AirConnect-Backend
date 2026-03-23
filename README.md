@@ -76,6 +76,7 @@ Testing
 
 * PHPUnit
 
+
 CI/CD
 
 * GitHub Actions
@@ -142,12 +143,29 @@ Ejecutar todos los tests:
 ```bash
 php artisan test
 ```
+Ejecutar test unitarianmente
+
+```bash
+php artisan test tests/Unit/passwordTest.php
+```
+o
+```bash
+php artisan test test/Unit/PassowrdHidenTest.php
+```
 
 Los tests se encuentran en la carpeta:
 
 ```
 tests/
 ```
+
+Ejecutar phpstan (Código Estatico)
+
+```bash
+./vendor/bin/phpstan analise
+```
+
+
 
 ---
 
