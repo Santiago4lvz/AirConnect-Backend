@@ -45,5 +45,6 @@ Route::middleware('guest')->group(function () {
 
 
 Route::get('/api/dashboard/stats', [DashboardController::class, 'apiStats']);
-
+// En routes/web.php o routes/api.php
+Route::get('/api/ultimas-lecturas', [DashboardController::class, 'getUltimasLecturas']);
 require __DIR__.'/auth.php';

@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<!-- Filtro por ubicación (similar al de torres pero adaptado) -->
+<!-- Filtro por ubicación (opcional - puedes mantenerlo o eliminarlo) -->
 <div class="row mb-4">
     <div class="col-md-12">
         <div class="card shadow-sm border-0">
@@ -61,17 +61,22 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="text-muted mb-1">PM2.5 (Partículas finas)</p>
-                        <h2 class="mb-0" id="pm25-value">12.3</h2>
-                        <small class="text-success"><i class="fas fa-arrow-down"></i> -2.1</small>
+                        <p class="text-muted mb-1">Calidad Aire (MQ135)</p>
+                        <h2 class="mb-0" id="mq135-value">{{ $ultima['aire_mq135'] ?? '--' }}</h2>
+                        <small class="text-success"><i class="fas fa-arrow-down"></i> Estable</small>
                     </div>
                     <div class="rounded-circle bg-primary bg-opacity-10 p-3">
                         <i class="fas fa-wind fa-2x text-primary"></i>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <span class="badge bg-success">Bueno</span>
-                    <small class="text-muted ms-2">Límite: 25 µg/m³</small>
+                    @php
+                        $mq135 = $ultima['aire_mq135'] ?? 0;
+                        $badgeClass = $mq135 < 100 ? 'success' : ($mq135 < 200 ? 'warning' : 'danger');
+                        $statusText = $mq135 < 100 ? 'Bueno' : ($mq135 < 200 ? 'Moderado' : 'Peligroso');
+                    @endphp
+                    <span class="badge bg-{{ $badgeClass }}">{{ $statusText }}</span>
+                    <small class="text-muted ms-2">Límite: 200</small>
                 </div>
             </div>
         </div>
@@ -82,38 +87,22 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="text-muted mb-1">CO₂ (Dióxido de Carbono)</p>
-                        <h2 class="mb-0" id="co2-value">845</h2>
-                        <small class="text-warning"><i class="fas fa-arrow-up"></i> +120</small>
-                    </div>
-                    <div class="rounded-circle bg-warning bg-opacity-10 p-3">
-                        <i class="fas fa-smog fa-2x text-warning"></i>
-                    </div>
-                </div>
-                <div class="mt-2">
-                    <span class="badge bg-warning">Moderado</span>
-                    <small class="text-muted ms-2">Límite: 1000 ppm</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <p class="text-muted mb-1">CO (Monóxido de Carbono)</p>
-                        <h2 class="mb-0" id="co-value">3.2</h2>
-                        <small class="text-success"><i class="fas fa-arrow-down"></i> -0.5</small>
+                        <p class="text-muted mb-1">CO (MQ7)</p>
+                        <h2 class="mb-0" id="co-value">{{ $ultima['co_mq7'] ?? '--' }}</h2>
+                        <small class="text-warning"><i class="fas fa-chart-line"></i> Monitoreado</small>
                     </div>
                     <div class="rounded-circle bg-danger bg-opacity-10 p-3">
-                        <i class="fas fa-skull-crosswind fa-2x text-danger"></i>
+                        <i class="fas fa-smog fa-2x text-danger"></i>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <span class="badge bg-success">Seguro</span>
-                    <small class="text-muted ms-2">Límite: 9 ppm</small>
+                    @php
+                        $co = $ultima['co_mq7'] ?? 0;
+                        $badgeClass = $co < 50 ? 'success' : ($co < 100 ? 'warning' : 'danger');
+                        $statusText = $co < 50 ? 'Seguro' : ($co < 100 ? 'Moderado' : 'Peligroso');
+                    @endphp
+                    <span class="badge bg-{{ $badgeClass }}">{{ $statusText }}</span>
+                    <small class="text-muted ms-2">Límite: 100</small>
                 </div>
             </div>
         </div>
@@ -124,18 +113,91 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="text-muted mb-1">NO₂ (Dióxido de Nitrógeno)</p>
-                        <h2 class="mb-0" id="no2-value">0.8</h2>
-                        <small class="text-success"><i class="fas fa-arrow-down"></i> -0.3</small>
+                        <p class="text-muted mb-1">Gas (MQ2)</p>
+                        <h2 class="mb-0" id="gas-value">{{ $ultima['gas_mq2'] ?? '--' }}</h2>
+                        <small class="text-success"><i class="fas fa-arrow-down"></i> Normal</small>
                     </div>
-                    <div class="rounded-circle bg-info bg-opacity-10 p-3">
-                        <i class="fas fa-industry fa-2x text-info"></i>
+                    <div class="rounded-circle bg-warning bg-opacity-10 p-3">
+                        <i class="fas fa-industry fa-2x text-warning"></i>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <span class="badge bg-success">Normal</span>
-                    <small class="text-muted ms-2">Límite: 1 ppm</small>
+                    @php
+                        $gas = $ultima['gas_mq2'] ?? 0;
+                        $badgeClass = $gas < 150 ? 'success' : ($gas < 300 ? 'warning' : 'danger');
+                        $statusText = $gas < 150 ? 'Normal' : ($gas < 300 ? 'Atención' : 'Peligroso');
+                    @endphp
+                    <span class="badge bg-{{ $badgeClass }}">{{ $statusText }}</span>
+                    <small class="text-muted ms-2">Límite: 300</small>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1">Humedad</p>
+                        <h2 class="mb-0" id="humedad-value">{{ $ultima['humedad'] ?? '--' }}%</h2>
+                        <small class="text-info"><i class="fas fa-tint"></i> Ambiente</small>
+                    </div>
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3">
+                        <i class="fas fa-tint fa-2x text-info"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    @php
+                        $humedad = $ultima['humedad'] ?? 0;
+                        $badgeClass = $humedad >= 30 && $humedad <= 60 ? 'success' : 'warning';
+                        $statusText = $humedad >= 30 && $humedad <= 60 ? 'Óptima' : 'Ajustar';
+                    @endphp
+                    <span class="badge bg-{{ $badgeClass }}">{{ $statusText }}</span>
+                    <small class="text-muted ms-2">Ideal: 30-60%</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Segunda fila de tarjetas: Temperatura y gráfico -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1">Temperatura</p>
+                        <h2 class="mb-0" id="temperatura-value">{{ $ultima['temperatura'] ?? '--' }} °C</h2>
+                        <small class="text-danger"><i class="fas fa-thermometer-half"></i> Ambiente</small>
+                    </div>
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3">
+                        <i class="fas fa-thermometer-half fa-2x text-success"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    @php
+                        $temp = $ultima['temperatura'] ?? 0;
+                        $badgeClass = $temp >= 18 && $temp <= 25 ? 'success' : ($temp > 25 ? 'warning' : 'info');
+                        $statusText = $temp >= 18 && $temp <= 25 ? 'Confortable' : ($temp > 25 ? 'Caluroso' : 'Frío');
+                    @endphp
+                    <span class="badge bg-{{ $badgeClass }}">{{ $statusText }}</span>
+                    <small class="text-muted ms-2">Ideal: 18-25°C</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="m-0 fw-bold text-primary">
+                    <i class="fas fa-chart-line me-2"></i>Evolución de Sensores - Últimas 10 Lecturas
+                </h6>
+            </div>
+            <div class="card-body">
+                <canvas id="evolutionChart" height="80"></canvas>
             </div>
         </div>
     </div>
@@ -151,51 +213,64 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="alert alert-warning d-flex align-items-center" role="alert">
-                    <i class="fas fa-exclamation-triangle me-3 fa-2x"></i>
-                    <div>
-                        <strong>Niveles elevados de CO₂ en Cocina Principal</strong><br>
-                        Se recomienda aumentar la ventilación. Valor actual: 1245 ppm
+                @php
+                    $hasAlerts = false;
+                    $mq135 = $ultima['aire_mq135'] ?? 0;
+                    $co = $ultima['co_mq7'] ?? 0;
+                    $gas = $ultima['gas_mq2'] ?? 0;
+                @endphp
+
+                @if($mq135 > 200)
+                    @php $hasAlerts = true; @endphp
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-triangle me-3 fa-2x"></i>
+                        <div>
+                            <strong>Niveles elevados de partículas (MQ135)</strong><br>
+                            Se recomienda aumentar la ventilación. Valor actual: {{ $mq135 }}
+                        </div>
+                        <button class="btn btn-sm btn-warning ms-auto">Verificar</button>
                     </div>
-                    <button class="btn btn-sm btn-warning ms-auto">Verificar</button>
-                </div>
+                @endif
+
+                @if($co > 100)
+                    @php $hasAlerts = true; @endphp
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="fas fa-skull-crosswind me-3 fa-2x"></i>
+                        <div>
+                            <strong>¡Peligro! Niveles tóxicos de CO (MQ7)</strong><br>
+                            Evacuar el área inmediatamente. Valor actual: {{ $co }}
+                        </div>
+                        <button class="btn btn-sm btn-danger ms-auto">Emergencia</button>
+                    </div>
+                @elseif($co > 50)
+                    @php $hasAlerts = true; @endphp
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-circle me-3 fa-2x"></i>
+                        <div>
+                            <strong>Niveles elevados de CO (MQ7)</strong><br>
+                            Ventilar el área. Valor actual: {{ $co }}
+                        </div>
+                        <button class="btn btn-sm btn-warning ms-auto">Verificar</button>
+                    </div>
+                @endif
+
+                @if(!$hasAlerts)
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="fas fa-check-circle me-3 fa-2x"></i>
+                        <div>
+                            <strong>Todos los parámetros dentro de rangos normales</strong><br>
+                            El ambiente se encuentra en condiciones óptimas.
+                        </div>
+                    </div>
+                @endif
+
                 <div class="alert alert-info d-flex align-items-center" role="alert">
                     <i class="fas fa-info-circle me-3 fa-2x"></i>
                     <div>
-                        <strong>Mantenimiento preventivo recomendado</strong><br>
-                        Los sensores de la Cocina Secundaria requieren calibración en 7 días
+                        <strong>Monitoreo continuo</strong><br>
+                        Los sensores actualizan datos cada {{ $ultimasLecturas ? '5-10' : '--' }} segundos
                     </div>
-                    <button class="btn btn-sm btn-info ms-auto">Programar</button>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Gráficos de evolución -->
-<div class="row mb-4">
-    <div class="col-md-8 mb-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white py-3">
-                <h6 class="m-0 fw-bold text-primary">
-                    <i class="fas fa-chart-line me-2"></i>Evolución de Contaminantes - Últimas 24h
-                </h6>
-            </div>
-            <div class="card-body">
-                <canvas id="evolutionChart" height="100"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white py-3">
-                <h6 class="m-0 fw-bold text-primary">
-                    <i class="fas fa-chart-pie me-2"></i>Distribución por Contaminante
-                </h6>
-            </div>
-            <div class="card-body">
-                <canvas id="distributionChart" height="200"></canvas>
             </div>
         </div>
     </div>
@@ -207,65 +282,81 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 fw-bold text-primary">
-                    <i class="fas fa-history me-2"></i>Lecturas Recientes por Ubicación
+                    <i class="fas fa-history me-2"></i>Lecturas Recientes por Sensor
                 </h6>
-                <a href="#" class="btn btn-sm btn-outline-primary">Ver Historial Completo</a>
+                <button class="btn btn-sm btn-outline-primary" onclick="location.reload()">
+                    <i class="fas fa-sync-alt me-1"></i>Actualizar
+                </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th>Ubicación</th>
-                                <th>PM2.5</th>
-                                <th>CO₂ (ppm)</th>
-                                <th>CO (ppm)</th>
-                                <th>NO₂ (ppm)</th>
-                                <th>Fecha/Hora</th>
+                                <th>#</th>
+                                <th><i class="fas fa-wind me-1"></i>MQ135</th>
+                                <th><i class="fas fa-smog me-1"></i>MQ7</th>
+                                <th><i class="fas fa-industry me-1"></i>MQ2</th>
+                                <th><i class="fas fa-tint me-1"></i>Humedad</th>
+                                <th><i class="fas fa-thermometer-half me-1"></i>Temperatura</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($ultimasLecturas as $index => $lectura)
                             <tr>
-                                <td><i class="fas fa-fire me-2 text-danger"></i>Cocina Principal</td>
-                                <td>12.3 <span class="badge bg-success">B</span></td>
-                                <td>1245 <span class="badge bg-warning">M</span></td>
-                                <td>3.2 <span class="badge bg-success">B</span></td>
-                                <td>0.8 <span class="badge bg-success">B</span></td>
-                                <td>{{ now()->format('H:i') }}</td>
-                                <td><span class="badge bg-warning">Atención</span></td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chart-bar"></i></button>
+                                    {{ $lectura['aire_mq135'] ?? '--' }}
+                                    @php $val = $lectura['aire_mq135'] ?? 0; @endphp
+                                    <span class="badge {{ $val < 100 ? 'bg-success' : ($val < 200 ? 'bg-warning' : 'bg-danger') }} ms-1">
+                                        {{ $val < 100 ? 'B' : ($val < 200 ? 'M' : 'P') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ $lectura['co_mq7'] ?? '--' }}
+                                    @php $val = $lectura['co_mq7'] ?? 0; @endphp
+                                    <span class="badge {{ $val < 50 ? 'bg-success' : ($val < 100 ? 'bg-warning' : 'bg-danger') }} ms-1">
+                                        {{ $val < 50 ? 'B' : ($val < 100 ? 'M' : 'P') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ $lectura['gas_mq2'] ?? '--' }}
+                                    @php $val = $lectura['gas_mq2'] ?? 0; @endphp
+                                    <span class="badge {{ $val < 150 ? 'bg-success' : ($val < 300 ? 'bg-warning' : 'bg-danger') }} ms-1">
+                                        {{ $val < 150 ? 'B' : ($val < 300 ? 'M' : 'P') }}
+                                    </span>
+                                </td>
+                                <td>{{ $lectura['humedad'] ?? '--' }}%</td>
+                                <td>{{ $lectura['temperatura'] ?? '--' }} °C</td>
+                                <td>
+                                    @php
+                                        $allGood = ($lectura['aire_mq135'] ?? 0) < 100 && 
+                                                   ($lectura['co_mq7'] ?? 0) < 50 && 
+                                                   ($lectura['gas_mq2'] ?? 0) < 150;
+                                        $badgeClass = $allGood ? 'bg-success' : 'bg-warning';
+                                        $statusText = $allGood ? 'Normal' : 'Atención';
+                                    @endphp
+                                    <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="verDetalle({{ $index }})">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="verGrafico({{ $index }})">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </button>
                                 </td>
                             </tr>
+                            @empty
                             <tr>
-                                <td><i class="fas fa-utensils me-2 text-warning"></i>Cocina Secundaria</td>
-                                <td>8.1 <span class="badge bg-success">B</span></td>
-                                <td>723 <span class="badge bg-success">B</span></td>
-                                <td>1.8 <span class="badge bg-success">B</span></td>
-                                <td>0.4 <span class="badge bg-success">B</span></td>
-                                <td>{{ now()->subMinutes(5)->format('H:i') }}</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chart-bar"></i></button>
+                                <td colspan="8" class="text-center py-4">
+                                    <i class="fas fa-database fa-2x text-muted mb-2 d-block"></i>
+                                    No hay lecturas disponibles. Esperando datos de Firebase...
                                 </td>
                             </tr>
-                            <tr>
-                                <td><i class="fas fa-chair me-2 text-info"></i>Comedor</td>
-                                <td>5.6 <span class="badge bg-success">B</span></td>
-                                <td>856 <span class="badge bg-success">B</span></td>
-                                <td>1.2 <span class="badge bg-success">B</span></td>
-                                <td>0.3 <span class="badge bg-success">B</span></td>
-                                <td>{{ now()->subMinutes(12)->format('H:i') }}</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chart-bar"></i></button>
-                                </td>
-                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -274,144 +365,114 @@
     </div>
 </div>
 
-<!-- Estadísticas y cumplimiento normativo -->
-<div class="row mt-4">
-    <div class="col-md-6 mb-3">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3">
-                <h6 class="m-0 fw-bold text-primary">
-                    <i class="fas fa-clipboard-check me-2"></i>Cumplimiento Normativo
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label class="d-flex justify-content-between">
-                        <span>PM2.5 (NOM-025-SSA1-2021)</span>
-                        <span class="text-success">Cumple</span>
-                    </label>
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-success" style="width: 45%"></div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="d-flex justify-content-between">
-                        <span>CO₂ (ASHRAE 62.1)</span>
-                        <span class="text-warning">Cumple con reservas</span>
-                    </label>
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-warning" style="width: 85%"></div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="d-flex justify-content-between">
-                        <span>CO (NOM-020-SSA1-2021)</span>
-                        <span class="text-success">Cumple</span>
-                    </label>
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-success" style="width: 35%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 mb-3">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3">
-                <h6 class="m-0 fw-bold text-primary">
-                    <i class="fas fa-file-pdf me-2"></i>Reportes y Análisis
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-file-pdf text-danger me-2"></i>
-                            Reporte Mensual - Enero 2026
-                        </div>
-                        <small class="text-muted">2.5 MB</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-file-excel text-success me-2"></i>
-                            Datos Históricos - Último Trimestre
-                        </div>
-                        <small class="text-muted">1.8 MB</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-chart-line text-primary me-2"></i>
-                            Análisis de Tendencias
-                        </div>
-                        <small class="text-muted">Actualizado</small>
-                    </a>
-                </div>
-                <button class="btn btn-primary w-100 mt-3">
-                    <i class="fas fa-download me-2"></i>Generar Nuevo Reporte
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Scripts para gráficos -->
+<!-- Scripts para gráficos y actualización en tiempo real -->
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Gráfico de evolución
-    const ctxEvolution = document.getElementById('evolutionChart').getContext('2d');
-    new Chart(ctxEvolution, {
-        type: 'line',
-        data: {
-            labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
-            datasets: [
-                {
-                    label: 'PM2.5',
-                    data: [8, 7, 9, 12, 15, 14, 11, 10],
-                    borderColor: '#4e73df',
-                    backgroundColor: 'rgba(78, 115, 223, 0.05)',
-                    tension: 0.3
+    // Datos del gráfico desde PHP
+    const chartLabels = @json($chartLabels);
+    const pm25Data = @json($pm25Data);
+    const co2Data = @json($co2Data);
+    
+    let evolutionChart;
+
+    // Inicializar gráfico
+    function initChart() {
+        const ctxEvolution = document.getElementById('evolutionChart').getContext('2d');
+        
+        if (evolutionChart) {
+            evolutionChart.destroy();
+        }
+        
+        evolutionChart = new Chart(ctxEvolution, {
+            type: 'line',
+            data: {
+                labels: chartLabels.length ? chartLabels : ['Sin datos'],
+                datasets: [
+                    {
+                        label: 'MQ135 (Calidad Aire)',
+                        data: pm25Data.length ? pm25Data : [0],
+                        borderColor: '#4e73df',
+                        backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'MQ7 (CO)',
+                        data: co2Data.length ? co2Data : [0],
+                        borderColor: '#e74a3b',
+                        backgroundColor: 'rgba(231, 74, 59, 0.05)',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
                 },
-                {
-                    label: 'CO₂',
-                    data: [650, 620, 700, 850, 1100, 950, 800, 720],
-                    borderColor: '#f6c23e',
-                    backgroundColor: 'rgba(246, 194, 62, 0.05)',
-                    tension: 0.3
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Valor del Sensor'
+                        }
+                    }
                 }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
+            }
+        });
+    }
 
-    // Gráfico de distribución
-    const ctxDistribution = document.getElementById('distributionChart').getContext('2d');
-    new Chart(ctxDistribution, {
-        type: 'doughnut',
-        data: {
-            labels: ['PM2.5', 'CO₂', 'CO', 'NO₂'],
-            datasets: [{
-                data: [30, 45, 15, 10],
-                backgroundColor: ['#4e73df', '#f6c23e', '#e74a3b', '#36b9cc']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
+    // Función para actualizar datos en tiempo real
+    async function actualizarDatos() {
+        try {
+            const response = await fetch('/api/ultimas-lecturas');
+            const data = await response.json();
+            
+            if (data.success && data.ultima) {
+                // Actualizar tarjetas
+                document.getElementById('mq135-value').textContent = data.ultima.aire_mq135 ?? '--';
+                document.getElementById('co-value').textContent = data.ultima.co_mq7 ?? '--';
+                document.getElementById('gas-value').textContent = data.ultima.gas_mq2 ?? '--';
+                document.getElementById('humedad-value').textContent = (data.ultima.humedad ?? '--') + '%';
+                document.getElementById('temperatura-value').textContent = (data.ultima.temperatura ?? '--') + ' °C';
+                
+                // Actualizar gráfico si hay nuevos datos
+                if (data.ultimasLecturas && data.chartLabels) {
+                    evolutionChart.data.labels = data.chartLabels;
+                    evolutionChart.data.datasets[0].data = data.pm25Data;
+                    evolutionChart.data.datasets[1].data = data.co2Data;
+                    evolutionChart.update();
+                }
+            }
+        } catch (error) {
+            console.error('Error actualizando datos:', error);
         }
-    });
+    }
 
-    // Simulación de actualización en tiempo real
-    setInterval(() => {
-        // Actualizar valores aleatorios para simular cambios
-        document.getElementById('pm25-value').textContent = (10 + Math.random() * 5).toFixed(1);
-        document.getElementById('co2-value').textContent = Math.floor(800 + Math.random() * 200);
-        document.getElementById('co-value').textContent = (2 + Math.random() * 2).toFixed(1);
-        document.getElementById('no2-value').textContent = (0.5 + Math.random() * 0.5).toFixed(1);
-    }, 5000);
+    // Funciones auxiliares
+    function verDetalle(index) {
+        alert('Ver detalle de lectura #' + (index + 1));
+    }
+    
+    function verGrafico(index) {
+        alert('Ver gráfico de lectura #' + (index + 1));
+    }
+
+    // Inicializar gráfico al cargar
+    document.addEventListener('DOMContentLoaded', function() {
+        initChart();
+        
+        // Actualizar cada 10 segundos si hay datos
+        @if(count($ultimasLecturas) > 0)
+            setInterval(actualizarDatos, 10000);
+        @endif
+    });
 </script>
 @endpush
 
@@ -439,14 +500,13 @@
     .bg-opacity-10 {
         --bs-bg-opacity: 0.1;
     }
-    .list-group-item {
-        border: none;
-        border-radius: 10px !important;
-        margin-bottom: 5px;
+    .table-responsive {
+        border-radius: 10px;
     }
-    .list-group-item:hover {
-        background-color: #f8f9fc;
+    .alert {
+        border-radius: 12px;
     }
 </style>
 @endpush
+
 @endsection
