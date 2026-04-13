@@ -12,7 +12,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Dashboard
+// Dashboard (solo para usuarios autenticados)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/checkin', [DashboardController::class, 'checkin'])->name('dashboard.checkin');
@@ -42,9 +42,4 @@ Route::middleware('guest')->group(function () {
          ->name('password.update');
 });
 
-
-
-Route::get('/api/dashboard/stats', [DashboardController::class, 'apiStats']);
-// En routes/web.php o routes/api.php
-Route::get('/api/ultimas-lecturas', [DashboardController::class, 'getUltimasLecturas']);
 require __DIR__.'/auth.php';
