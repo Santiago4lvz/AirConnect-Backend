@@ -19,7 +19,14 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'http://localhost:8100',
+        'http://localhost:8101',
+        'http://localhost:4200',
+        'http://127.0.0.1:8100',
+        'http://10.0.2.2',  // Para emulador Android
+        'http://airconnect-backend.test',
+    ],
 
     'allowed_origins_patterns' => [],
 
