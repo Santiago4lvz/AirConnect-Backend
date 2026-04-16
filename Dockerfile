@@ -60,7 +60,7 @@ RUN apt-get update && ACCEPT_EULA=Y apt-get install -y \
     libgssapi-krb5-2
 
 # Instalar extensiones PHP sqlsrv y pdo_sqlsrv
-RUN pecl install sqlsrv-5.11.0 pdo_sqlsrv-5.11.0 \
+RUN pecl install sqlsrv-5.12.0 pdo_sqlsrv-5.12.0\
     && echo "extension=sqlsrv.so" > /etc/php/8.2/mods-available/sqlsrv.ini \
     && echo "extension=pdo_sqlsrv.so" > /etc/php/8.2/mods-available/pdo_sqlsrv.ini \
     && phpenmod sqlsrv pdo_sqlsrv

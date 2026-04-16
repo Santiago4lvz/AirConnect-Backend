@@ -91,10 +91,7 @@ return [
             'prefix_indexes' => true,
             'encrypt' => filter_var(env('DB_ENCRYPT', false), FILTER_VALIDATE_BOOLEAN) ? 'yes' : 'no',
             'trust_server_certificate' => filter_var(env('DB_TRUST_SERVER_CERTIFICATE', false), FILTER_VALIDATE_BOOLEAN),
-            'options'=>[
-            //
-            PDO::SQLSRV_ATTR_ENCODING => PDO::SQLSRV_ENCODING_UTF8,
-            ],
+            'options' => extension_loaded('pdo_sqlsrv') ? [] : [],
         ],
 
     ],
