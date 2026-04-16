@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+#build  y despliegue en DockerHub
     steps:
       - name: Checkout
         uses: actions/checkout@v2

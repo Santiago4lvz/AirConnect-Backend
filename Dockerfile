@@ -47,6 +47,24 @@ RUN add-apt-repository ppa:ondrej/php -y \
         php-pear \
     && rm -rf /var/lib/apt/lists/*
 
+# --- INICIO: Drivers SQL Server ---
+# Registrar el repositorio de Microsoft para Ubuntu 22.04
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-prod.gpg \
+    && echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" > /etc/apt/sources.list.d/mssql-release.list
+
+# Instalar el driver ODBC y dependencias de desarrollo
+RUN apt-get update && ACCEPT_EULA=Y apt-get install -y \
+    msodbcsql18 \
+    mssql-tools18 \
+    unixodbc-dev \
+    libgssapi-krb5-2
+
+# Instalar extensiones PHP sqlsrv y pdo_sqlsrv
+RUN pecl install sqlsrv-5.11.0 pdo_sqlsrv-5.11.0 \
+    && echo "extension=sqlsrv.so" > /etc/php/8.2/mods-available/sqlsrv.ini \
+    && echo "extension=pdo_sqlsrv.so" > /etc/php/8.2/mods-available/pdo_sqlsrv.ini \
+    && phpenmod sqlsrv pdo_sqlsrv
+
 # 3. Instalar extensiones PECL (Swoole y PCOV solamente)
 RUN pecl channel-update pecl.php.net \
     && pecl install pcov swoole \
