@@ -27,7 +27,7 @@ jobs:
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --no-progress
 
-  test integration: 
+  test_integration: 
         - name: Run Tests
         - run: php artisan test
 
