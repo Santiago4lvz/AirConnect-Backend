@@ -7,8 +7,33 @@ on:
     branches: [proyecto-integrador]
 
 jobs:
+  # 1. PRIMERO PROBAMOS (Si falla aquí, no perdemos tiempo construyendo la imagen)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, pdo_sqlite, sqlsrv, pdo_sqlsrv
+          coverage: none
+
+      - name: Install Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse --no-progress
+
+      - name: Run Tests
+        run: php artisan test
+
+  # 2. LUEGO CONSTRUIMOS (Solo si los tests pasaron)
   build:
     runs-on: ubuntu-latest
+    needs: test # Obliga a que pasen los tests primero
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,14 +52,14 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/proyecto-integrador:latest
-          
+
+  # 3. FINALMENTE DESPLEGAMOS
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    #if: github.event_name == 'push' # Evita que los Pull Requests disparen un despliegue real
+    if: github.event_name == 'push' # Solo despliega cuando haces push, no en Pull Requests
     steps:
       - name: Trigger Render Deploy
         run: |
