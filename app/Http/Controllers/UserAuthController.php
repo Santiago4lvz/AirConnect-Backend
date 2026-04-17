@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserAuthController extends Controller
 {
@@ -19,9 +20,11 @@ class UserAuthController extends Controller
 
 
         if (! $user || ! \Hash::check($request->password, $user->password)) {
+            Log::warning('Intento de login fallido', ['email' => $request->email, 'ip' => $request->ip()]);
             return response()->json([
                 'message' => 'Invalid credentials',
             ], 401);
+            
         }
 
         if ($user == null){

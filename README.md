@@ -21,7 +21,11 @@ El sistema proporciona endpoints para manejar autenticación, gestión de vuelos
 * [Variables de Entorno](#variables-de-entorno)
 * [Contribución](#contribución)
 * [Licencia](#licencia)
+* [logs] (#logs)
+* [Ambiente de pruebas](#ambiente-de-pruebas)
+* [pre-produccion](#ambiente-de-pre-producción)
 * [Autores](#autores)
+
 
 ---
 
@@ -47,8 +51,9 @@ Antes de ejecutar el proyecto debes tener instalado:
 * PHP 8.1+
 * Composer
 * MySQL o MariaDB
+* SQL Server
 * Node.js 18+
-* Docker (opcional)
+* Docker 
 
 ---
 
@@ -75,6 +80,7 @@ Control de versiones
 Testing
 
 * PHPUnit
+* PhPTest
 
 
 CI/CD
@@ -209,7 +215,7 @@ APP_NAME=AirConnect
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_URL=http://localhost
+APP_URL=http://localhost 
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -254,6 +260,41 @@ git push origin feature/nueva-funcionalidad
 Este proyecto se distribuye bajo la licencia **MIT**.
 
 ---
+
+# Logs
+ Herramienta: log-viewere
+
+ instalación
+```
+ composer require opcodesio/log-viewer
+ php artisan log-viewer:publish
+```
+Uso
+Una vez la instalación se a completado se podra acceder desde el navegador
+```
+{APP_URL}/log-viewer
+```
+# Ambiente de pruebas
+
+Ejecutar el .env de pruebas
+
+```
+copy .env .env.testing
+```
+ejecutar migraciones
+
+```
+php artisan migrate
+```
+
+# Ambiente de pre-producción
+
+Ejecutar el archivo setup.sh
+
+```
+./setup.sh
+```
+
 
 # Autores
 

@@ -1,5 +1,3 @@
-#preproducción
-
 version: '3.8'
 
 services:
@@ -12,11 +10,33 @@ services:
       - "8000:8000"
     volumes:
       - .:/var/www/html
-    # Usamos env_file para cargar automáticamente todo lo que esté en tu .env
     env_file:
       - .env
-    # El comando está bien para pruebas, pero recuerda que artisan serve no es para producción
-    command: php artisan serve --host=0.0.0.0 --port=8000
+    command: php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000
+    networks:
+      - airconnect_network
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - airconnect_network
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - airconnect_network
 

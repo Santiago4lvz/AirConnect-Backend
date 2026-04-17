@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Iniciando generación del entorno de liberación..."
+echo "🚀 Iniciando generación del entorno de pre-producción..."
 
 # 1. Copiar configuración de entorno si no existe
 if [ ! -f .env ]; then
