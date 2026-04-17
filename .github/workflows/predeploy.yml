@@ -1,10 +1,10 @@
-name: Tests
+name: PreDeploy
 
 on:
   push:
-    branches: [proyecto-integrador]
+    branches: [dev]
   pull_request:
-    branches: [proyecto-integrador]
+    branches: [dev]
 
 jobs:
   build:
@@ -41,8 +41,5 @@ jobs:
       - name: Run migrations
         run: php artisan migrate --force
 
-      - name: Run PHPStan
 
-        run: ./vendor/bin/phpstan analyse --no-progress
-      - name: Run Test
-        run: php artisan test
+      

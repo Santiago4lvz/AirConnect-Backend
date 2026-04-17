@@ -34,6 +34,16 @@ Route::get('iot-data', [IotController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user-profile', [UserAuthController::class, 'userProfile']);
 
+
+Route::get('/health', function () {
+    try {
+        DB::connection()->getPdo(); // Verifica la base de datos
+        return response()->json(['status' => 'healthy', 'database' => 'connected'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'unhealthy', 'error' => $e->getMessage()], 500);
+    }
+});
+
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
