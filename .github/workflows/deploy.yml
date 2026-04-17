@@ -26,12 +26,6 @@ jobs:
 
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --no-progress
-
-    test_integration: 
-        - name: Run Tests
-        - run: php artisan test
-
-
   # 2. LUEGO CONSTRUIMOS (Solo si los tests pasaron)
   build:
     runs-on: ubuntu-latest
