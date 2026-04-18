@@ -3,9 +3,7 @@
 [![CI/CD](https://github.com/Santiago4lvz/AirConnect-Backend/actions/workflows/ci-cd.yml/badge.svg)]
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]
 
-Backend del proyecto **AirConnect**, una API desarrollada para gestionar servicios relacionados con transporte aéreo, reservas y administración de usuarios.
-
-El sistema proporciona endpoints para manejar autenticación, gestión de vuelos, reservas y administración del sistema.
+AirConnect implementa un sistema IoT que monitorea en tiempo real la calidad del aire mediante sensores conectados a una plataforma en la nube. Su aplicación móvil permite visualizar datos en vivo, recibir alertas y generar reportes automáticos.
 
 ---
 
@@ -21,7 +19,7 @@ El sistema proporciona endpoints para manejar autenticación, gestión de vuelos
 * [Variables de Entorno](#variables-de-entorno)
 * [Contribución](#contribución)
 * [Licencia](#licencia)
-* [logs] (#logs)
+* [logs](#logs)
 * [Ambiente de pruebas](#ambiente-de-pruebas)
 * [pre-produccion](#ambiente-de-pre-producción)
 * [Autores](#autores)
