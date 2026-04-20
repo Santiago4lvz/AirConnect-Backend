@@ -30,7 +30,7 @@ Route::post('iot-data', [IotController::class, 'store']);
 
 // todos los datos de iot
 Route::get('iot-data', [IotController::class, 'index']);
-// Route::post('register-mobile',[RegisteredUserController::class,'store']);
+// Route::post('register-mobile',[RegisteredUserController::class,'store']); 
 
 Route::middleware('auth:sanctum')->get('/user-profile', [UserAuthController::class, 'userProfile']);
 
