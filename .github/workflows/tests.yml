@@ -2,9 +2,7 @@ name: Tests
 
 on:
   push:
-    branches: [proyecto-integrador]
-  pull_request:
-    branches: [proyecto-integrador]
+    branches: [dev]
 
 jobs:
   build:
